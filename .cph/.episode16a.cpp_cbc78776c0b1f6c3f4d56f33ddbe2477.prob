@@ -1,0 +1,1 @@
+{"name":"Local: episode16a","url":"c:\\Codes\\LUV Course\\episode16a.cpp","tests":[{"id":1635394114587,"input":"2\n5 5\nabcec\n1 2\n2 5\n3 5\n1 5\n1 4\n5 5\naabbc\n1 2\n2 5\n3 5\n1 5\n1 4","output":"NO\nNO\nYES\nNO\nNO\nYES\nNO\nYES\nYES\nYES"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\LUV Course\\episode16a.cpp","group":"local","local":true}

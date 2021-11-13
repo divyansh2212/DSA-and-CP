@@ -1,0 +1,1 @@
+{"name":"Local: episode27b","url":"c:\\Codes\\LUV Course\\episode27b.cpp","tests":[{"id":1635659620434,"input":"8\nabc\nabc\ndef\nhjs\ndys\nads\ndef\niop\n4\niop\nabc\nyew\nfld","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\LUV Course\\episode27b.cpp","group":"local","local":true}

@@ -1,0 +1,1 @@
+{"name":"Local: episode32","url":"c:\\Codes\\LUV Course\\episode32.cpp","tests":[{"id":1635758920171,"input":"6\n4 5 2 25 7 8","output":"5 25 25 -1 8 -1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\LUV Course\\episode32.cpp","group":"local","local":true}
