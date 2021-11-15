@@ -1,33 +1,26 @@
-#include <bits/stdc++.h>
-using namespace std;
-int to_check(int arr[], int n, int mx)
-{
-    for(int x=0; x <= mx; x++)
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) 
     {
-        int xr = 0;
-        for(int i=0; i < n; i++)
+        vector<int> ans;
+        vector<int> prefixXr(nums.size());
+        prefixXr[0] = nums[0];
+        for(int i=1; i < nums.size(); i++)
         {
-            xr = (xr ^ (x + arr[i]));
+            prefixXr[i] = (prefixXr[i-1] ^ nums[i]);
         }
-        if(xr == 0) return x;
+        
+        for(int i= nums.size()-1; i >= 0 ; i--)
+        {
+            for(int j=0; j < (1 << maximumBit); j++)
+            {
+                if((prefixXr[i] ^ j) == ((1 << maximumBit) - 1))
+                {
+                    ans.push_back(j); break;
+                }
+            }
+        }
+
+        return ans;
     }
-    return -1;
-}
-int main() {
-	int t;
-	scanf("%d", &t);
-	while(t--)
-	{
-	    int n;
-	    scanf("%d", &n);
-	    int v[n]; int mx = 0;
-	    for(int i=0; i < n; i++)
-	    {
-	        scanf("%d", &v[i]);
-	        mx = max(mx, v[i]);
-	    }
-	    int ans = to_check(v, n, mx);
-	    printf("%d\n", ans);
-	}
-	return 0;
-}
+};
