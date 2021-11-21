@@ -1,26 +1,37 @@
-class Solution {
-public:
-    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) 
-    {
-        vector<int> ans;
-        vector<int> prefixXr(nums.size());
-        prefixXr[0] = nums[0];
-        for(int i=1; i < nums.size(); i++)
-        {
-            prefixXr[i] = (prefixXr[i-1] ^ nums[i]);
-        }
-        
-        for(int i= nums.size()-1; i >= 0 ; i--)
-        {
-            for(int j=0; j < (1 << maximumBit); j++)
-            {
-                if((prefixXr[i] ^ j) == ((1 << maximumBit) - 1))
-                {
-                    ans.push_back(j); break;
-                }
-            }
-        }
+#include <bits/stdc++.h>
+using namespace std;
+const int M = 1e9 + 7;
 
-        return ans;
+long long binExp(long long a, int b)
+{
+    long long ans = 1;
+    while (b)
+    {
+        if (b & 1)
+            ans = (ans * a) % M;
+        a = (a * a) % M;
+        b = (b >> 1);
     }
-};
+    return ans;
+}
+int main()
+{
+    int n;
+    cin >> n;
+    long long fx = 1;
+    int gx;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        fx = (fx * x) % M;
+        if (i == 0)
+            gx = x;
+        if (i > 0)
+        {
+            gx = __gcd(gx, x);
+        }
+    }
+    cout << binExp(fx, gx);
+    return 0;
+}
