@@ -1,37 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int M = 1e9 + 7;
-
-long long binExp(long long a, int b)
-{
-    long long ans = 1;
-    while (b)
-    {
-        if (b & 1)
-            ans = (ans * a) % M;
-        a = (a * a) % M;
-        b = (b >> 1);
-    }
-    return ans;
-}
 int main()
 {
-    int n;
-    cin >> n;
-    long long fx = 1;
-    int gx;
-    for (int i = 0; i < n; i++)
+    long long n, m, l, r, k;
+    cin >> n >> m;
+    cin >> l >> r;
+    cin >> k;
+    long long NmodM = (n % m);
+    vector<long long> arr;
+
+    for (long long i = l; i <= r; i++)
     {
-        int x;
-        cin >> x;
-        fx = (fx * x) % M;
-        if (i == 0)
-            gx = x;
-        if (i > 0)
+        if ((n % i) == NmodM && i != m)
+            arr.push_back(i);
+    }
+    if (arr.size() > k)
+        cout << arr.size() << endl
+             << -1 << endl;
+    else
+    {
+        cout << arr.size() << endl;
+        sort(arr.begin(), arr.end());
+        for (int i = 0; i < arr.size(); i++)
         {
-            gx = __gcd(gx, x);
+            cout << arr[i] << " ";
         }
     }
-    cout << binExp(fx, gx);
     return 0;
 }
