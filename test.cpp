@@ -2,29 +2,40 @@
 using namespace std;
 int main()
 {
-    long long n, m, l, r, k;
-    cin >> n >> m;
-    cin >> l >> r;
-    cin >> k;
-    long long NmodM = (n % m);
-    vector<long long> arr;
-
-    for (long long i = l; i <= r; i++)
+    int m;
+    cin >> m;
+    vector<int> arr(m);
+    for (int i = 0; i < m; i++)
     {
-        if ((n % i) == NmodM && i != m)
-            arr.push_back(i);
+        cin >> arr[i];
     }
-    if (arr.size() > k)
-        cout << arr.size() << endl
-             << -1 << endl;
-    else
+    int d = abs(arr[0] - arr[1]);
+    vector<int> divisors;
+    for (int i = 2; i <= d / 2; i++)
     {
-        cout << arr.size() << endl;
-        sort(arr.begin(), arr.end());
-        for (int i = 0; i < arr.size(); i++)
+        if (d % i == 0)
+            divisors.push_back(i);
+    }
+    divisors.push_back(d);
+    vector<int> ans;
+    for (int i = 0; i < divisors.size(); i++)
+    {
+        int l = arr[0] % divisors[i];
+        bool flag = true;
+        for (int j = 1; j < arr.size(); j++)
         {
-            cout << arr[i] << " ";
+            if (arr[j] % divisors[i] != l)
+                flag = false;
         }
+        if (flag)
+            ans.push_back(divisors[i]);
     }
+
+    sort(ans.begin(), ans.end());
+    for (auto &ele : ans)
+    {
+        cout << ele << " ";
+    }
+
     return 0;
 }
