@@ -1,41 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
+const int M = 1e9 + 7;
+long long binExp(long long a, long long b)
+{
+   long long ans = 1;
+   while (b > 0)
+   {
+      if (b & 1)
+         ans = (ans * a) % M;
+      a = (a * a) % M;
+      b = (b >> 1);
+   }
+   return ans;
+}
 int main()
 {
-    int m;
-    cin >> m;
-    vector<int> arr(m);
-    for (int i = 0; i < m; i++)
-    {
-        cin >> arr[i];
-    }
-    int d = abs(arr[0] - arr[1]);
-    vector<int> divisors;
-    for (int i = 2; i <= d / 2; i++)
-    {
-        if (d % i == 0)
-            divisors.push_back(i);
-    }
-    divisors.push_back(d);
-    vector<int> ans;
-    for (int i = 0; i < divisors.size(); i++)
-    {
-        int l = arr[0] % divisors[i];
-        bool flag = true;
-        for (int j = 1; j < arr.size(); j++)
-        {
-            if (arr[j] % divisors[i] != l)
-                flag = false;
-        }
-        if (flag)
-            ans.push_back(divisors[i]);
-    }
+   int t;
+   cin >> t;
+   while (t--)
+   {
+      int cnt;
+      cin >> cnt;
+      vector<long long> numbers(cnt);
+      vector<long long> powers(cnt);
+      vector<long long> gps(cnt);
+      for (int i = 0; i < cnt; i++)
+         cin >> numbers[i];
 
-    sort(ans.begin(), ans.end());
-    for (auto &ele : ans)
-    {
-        cout << ele << " ";
-    }
+      for (int i = 0; i < cnt; i++)
+         cin >> powers[i];
 
-    return 0;
+      for (int i = 0; i < cnt; i++)
+      {
+         long long numera = (numbers[i] * (binExp(numbers[i], powers[i]) - 1)) % M;
+         long long deno = numbers[i] - 1;
+         long long ele = (numera * binExp(deno, M - 2)) % M;
+         gps[i] = ele;
+      }
+
+         long long ans = 1;
+         for (long long i = 0; i < gps.size(); i++)
+         {
+            ans = (ans * gps[i]) % M;
+         }
+         cout << ans << endl;
+   }
+
+   return 0;
 }
