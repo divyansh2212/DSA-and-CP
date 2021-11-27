@@ -1,0 +1,19 @@
+Graph is a collection of edges and vertices.
+These edges can be bidirectional or unidirectional.
+
+Graph without any cycle is called a tree.
+If a tree has n nodes, then the number of edges will be n-1.
+
+Connected Components:
+We can traverse every single node from any node in a connected component.
+
+Simple Graphs are undirected graphs.       ------
+In directed graphs, edges have a direction ------>
+
+In directed graphs, connected Components are termed as Strongly Connected Components.
+
+collection of connected components is called as forest.
+
+In a tree, distance of any node from a root node is called as depth of that node.
+Height of a node is the longest possible number of edges to the leaf node.
+LCA is the first common parent of two nodes.
