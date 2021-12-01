@@ -1,36 +1,49 @@
 #include <bits/stdc++.h>
 using namespace std;
-int invertBits(int n, int bits)
+int perimeter = 0;
+void dfs(int i, int j, vector<vector<int>> &grid, vector<vector<bool>> &visited, bool flag)
 {
-   int number = 0;
-   for (int i = 0; i < bits; i++)
+   if (i < 0 || j < 0 || i == grid.size() || j == grid[0].size())
+      return;
+   if (grid[i][j] == 0 || visited[i][j])
+      return;
+
+   visited[i][j] = true;
+   if (flag)
+      perimeter -= 2;
+
+   dfs(i + 1, j, grid, visited, true);
+   dfs(i - 1, j, grid, visited, true);
+   dfs(i, j + 1, grid, visited, true);
+   dfs(i, j - 1, grid, visited, true);
+}
+int islandPerimeter(vector<vector<int>> &grid)
+{
+   vector<bool> unda(100, false);
+   vector<vector<bool>> visited(100, unda);
+
+   for (int i = 0; i < grid.size(); i++)
    {
-      if ((n & (1 << i)) == 0)
+      for (int j = 0; j < grid[i].size(); j++)
       {
-         number = (number | (1 << i));
+         if (visited[i][j])
+            continue;
+         dfs(i, j, grid, visited, false);
       }
    }
-   return number;
+   for (int i = 0; i < visited.size(); i++)
+   {
+      for (int j = 0; j < visited[i].size(); j++)
+      {
+         if (visited[i][j])
+            perimeter += 4;
+      }
+   }
+
+   return perimeter;
 }
 int main()
 {
-   int t;
-   cin >> t;
-   while (t--)
-   {
-      long a, b, n;
-      cin >> a >> b >> n;
-      int maxmBits = max((int)log2(a) + 1, (int)log2(b) + 1);
-      long nthxor, nthxnor, ans;
-      nthxor = (a ^ b);
-      nthxnor = invertBits(nthxor, maxmBits);
-      if (n % 3 == 1 || n == 1)
-         cout << a << endl;
-      else if (n % 3 == 2 || n == 2)
-         cout << b << endl;
-      else if (n % 3 == 0)
-         cout << max(nthxnor, nthxor) << endl;
-   }
 
    return 0;
 }
