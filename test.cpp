@@ -1,49 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-int perimeter = 0;
-void dfs(int i, int j, vector<vector<int>> &grid, vector<vector<bool>> &visited, bool flag)
-{
-   if (i < 0 || j < 0 || i == grid.size() || j == grid[0].size())
-      return;
-   if (grid[i][j] == 0 || visited[i][j])
-      return;
-
-   visited[i][j] = true;
-   if (flag)
-      perimeter -= 2;
-
-   dfs(i + 1, j, grid, visited, true);
-   dfs(i - 1, j, grid, visited, true);
-   dfs(i, j + 1, grid, visited, true);
-   dfs(i, j - 1, grid, visited, true);
-}
-int islandPerimeter(vector<vector<int>> &grid)
-{
-   vector<bool> unda(100, false);
-   vector<vector<bool>> visited(100, unda);
-
-   for (int i = 0; i < grid.size(); i++)
-   {
-      for (int j = 0; j < grid[i].size(); j++)
-      {
-         if (visited[i][j])
-            continue;
-         dfs(i, j, grid, visited, false);
-      }
-   }
-   for (int i = 0; i < visited.size(); i++)
-   {
-      for (int j = 0; j < visited[i].size(); j++)
-      {
-         if (visited[i][j])
-            perimeter += 4;
-      }
-   }
-
-   return perimeter;
-}
 int main()
 {
+   int n;
+   cin >> n;
+   int arr[n];
+   for (int i = 0; i < n; i++)
+   {
+      cin >> arr[i];
+   }
+   vector<int> ans(n, -1);
+   vector<int> minimal(n, INT_MAX);
+
+   // for (int i = 0; i < n; i++)
+   // {
+   //    for (int j = i + 1; j < n; j++)
+   //    {
+   //       if (__gcd(arr[i], arr[j]) > 1)
+   //       {
+   //          if (abs(i - j) < minimal[i])
+   //          {
+   //             ans[i] = j + 1;
+   //             minimal[i] = abs(i - j);
+   //          }
+   //          if (abs(i - j) < minimal[j])
+   //          {
+   //             ans[j] = i + 1;
+   //             minimal[j] = abs(i - j);
+   //          }
+   //       }
+   //    }
+   // }
+   int lo = 0, hi = n - 1;
+   while (hi - lo > 1)
+   {
+      int mid = (hi + lo) / 2;
+      if (__gcd(arr[mid - 1], arr[mid]) > 1 && (mid - 1) >= 0)
+      {
+         
+      }
+   }
+
+   for (int i = 0; i < n; i++)
+   {
+      cout << ans[i] << " ";
+   }
 
    return 0;
 }
