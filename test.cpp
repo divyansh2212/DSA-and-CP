@@ -1,50 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
+const int N = 2e5 + 10;
 int main()
 {
-   int n;
-   cin >> n;
-   int arr[n];
-   for (int i = 0; i < n; i++)
+   int t;
+   cin >> t;
+   while (t--)
    {
-      cin >> arr[i];
-   }
-   vector<int> ans(n, -1);
-   vector<int> minimal(n, INT_MAX);
-
-   // for (int i = 0; i < n; i++)
-   // {
-   //    for (int j = i + 1; j < n; j++)
-   //    {
-   //       if (__gcd(arr[i], arr[j]) > 1)
-   //       {
-   //          if (abs(i - j) < minimal[i])
-   //          {
-   //             ans[i] = j + 1;
-   //             minimal[i] = abs(i - j);
-   //          }
-   //          if (abs(i - j) < minimal[j])
-   //          {
-   //             ans[j] = i + 1;
-   //             minimal[j] = abs(i - j);
-   //          }
-   //       }
-   //    }
-   // }
-   int lo = 0, hi = n - 1;
-   while (hi - lo > 1)
-   {
-      int mid = (hi + lo) / 2;
-      if (__gcd(arr[mid - 1], arr[mid]) > 1 && (mid - 1) >= 0)
+      vector<int> hsh(N, 0);
+      int n;
+      cin >> n;
+      bool flag = false;
+      int cnt = 0;
+      for (int i = 0; i < n; i++)
       {
-         
+         int x;
+         cin >> x;
+         hsh[x]++;
+         if (hsh[x] == 2)
+            flag = true;
+         //  if (hsh[x] > 1)
+         cnt = max(cnt, hsh[x] - 1);
       }
-   }
+      if (n == 1)
+      {
+         cout << 0 << endl;
+         continue;
+      }
+      else if (flag == false)
+      {
+         cout << -1 << endl;
+         continue;
+      }
+      int cnt2 = 0;
+      for (int i = 0; i < n; i++)
+      {
+         if (hsh[i])
+            cnt2++;
+      }
+      if (cnt2 == 1)
+         cnt++;
 
-   for (int i = 0; i < n; i++)
-   {
-      cout << ans[i] << " ";
+      cout << n - cnt << endl;
    }
-
    return 0;
 }
