@@ -1,47 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 2e5 + 10;
+int ans = 0;
+bool check(string s, int lo, int hi)
+{
+   int cnt0 = 0, cnt1 = 0;
+   for (int i = lo; i <= hi; i++)
+   {
+      if (s[i] == '0')
+         cnt0++;
+      if (s[i] == '1')
+         cnt1++;
+   }
+   if (cnt0 > cnt1)
+   {
+      if (ans > hi - lo + 1)
+         ans = hi - lo + 1;
+      return true;
+   }
+   return false;
+}
 int main()
 {
-   int t;
-   cin >> t;
-   while (t--)
-   {
-      vector<int> hsh(N, 0);
-      int n;
-      cin >> n;
-      bool flag = false;
-      int cnt = 0;
-      for (int i = 0; i < n; i++)
-      {
-         int x;
-         cin >> x;
-         hsh[x]++;
-         if (hsh[x] == 2)
-            flag = true;
-         //  if (hsh[x] > 1)
-         cnt = max(cnt, hsh[x] - 1);
-      }
-      if (n == 1)
-      {
-         cout << 0 << endl;
-         continue;
-      }
-      else if (flag == false)
-      {
-         cout << -1 << endl;
-         continue;
-      }
-      int cnt2 = 0;
-      for (int i = 0; i < n; i++)
-      {
-         if (hsh[i])
-            cnt2++;
-      }
-      if (cnt2 == 1)
-         cnt++;
+   int n;
+   cin >> n;
+   string s;
+   cin >> s;
 
-      cout << n - cnt << endl;
+   int hi = n - 1, lo = 0, mid;
+   while (hi - lo > 2)
+   {
+      if (check(s, lo, hi))
+      {
+         cout << ans;
+         return 0;
+      }
+      if (s[hi] == '1')
+         hi--;
+      else
+         lo++;
    }
    return 0;
 }
