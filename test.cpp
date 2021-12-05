@@ -1,43 +1,60 @@
 #include <bits/stdc++.h>
 using namespace std;
-int ans = 0;
-bool check(string s, int lo, int hi)
+const int N = 1e4 + 10;
+int cnt = 0;
+
+void dfs(int i, int j, vector<vector<char>> &arr)
 {
-   int cnt0 = 0, cnt1 = 0;
-   for (int i = lo; i <= hi; i++)
-   {
-      if (s[i] == '0')
-         cnt0++;
-      if (s[i] == '1')
-         cnt1++;
-   }
-   if (cnt0 > cnt1)
-   {
-      if (ans > hi - lo + 1)
-         ans = hi - lo + 1;
-      return true;
-   }
-   return false;
+   int m = arr.size() - 1, n = arr[i].size() - 1;
+   if (i < 0 || j < 0 || i > m || j > n)
+      return;
+   if (arr[i][j] != '.')
+      return;
+   arr[i][j] = '#';
+   cnt++;
+
+   dfs(i + 1, j, arr);
+   dfs(i - 1, j, arr);
+   dfs(i, j + 1, arr);
+   dfs(i, j - 1, arr);
 }
 int main()
 {
-   int n;
-   cin >> n;
-   string s;
-   cin >> s;
-
-   int hi = n - 1, lo = 0, mid;
-   while (hi - lo > 2)
+   int q;
+   cin >> q;
+   while (q--)
    {
-      if (check(s, lo, hi))
+      int n, m;
+      cin >> n >> m;
+      vector<vector<char>> arr(n, vector<char>(m, 0));
+
+      for (int i = 0; i < n; i++)
       {
-         cout << ans;
-         return 0;
+         for (int j = 0; j < m; j++)
+         {
+            cin >> arr[i][j];
+         }
       }
-      if (s[hi] == '1')
-         hi--;
-      else
-         lo++;
+      vector<int> ccs;
+      for (int i = 0; i < n; i++)
+      {
+         for (int j = 0; j < m; j++)
+         {
+            if (arr[i][j] != '.')
+               continue;
+            cnt = 0;
+            dfs(i, j, arr);
+            ccs.push_back(cnt);
+         }
+      }
+
+      cout << ccs.size() << endl;
+      for (int i = 0; i < ccs.size(); i++)
+      {
+         cout << ccs[i] << " ";
+      }
+      cout << endl;
    }
+
    return 0;
 }
