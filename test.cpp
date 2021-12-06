@@ -1,60 +1,65 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e4 + 10;
-int cnt = 0;
+const int N = 2e5 + 10;
+vector<int> g[N];
+int val[N];
+int curr_ans1 = 0;
+int curr_ans2 = 0;
 
-void dfs(int i, int j, vector<vector<char>> &arr)
+void dfs1(int vtx, int par = 0)
 {
-   int m = arr.size() - 1, n = arr[i].size() - 1;
-   if (i < 0 || j < 0 || i > m || j > n)
-      return;
-   if (arr[i][j] != '.')
-      return;
-   arr[i][j] = '#';
-   cnt++;
+   for (auto child : g[vtx])
+   {
+      if (child == par)
+         continue;
 
-   dfs(i + 1, j, arr);
-   dfs(i - 1, j, arr);
-   dfs(i, j + 1, arr);
-   dfs(i, j - 1, arr);
+      if (val[child] == 1)
+      {
+         if (val[par] == 0 && par != 0)
+         {
+            if (child < vtx)
+               curr_ans1++;
+            else if (child > vtx)
+               curr_ans2++;
+         }
+         continue;
+      }
+      dfs1(child, vtx);
+
+      if (child < vtx)
+         curr_ans1++;
+      else if (child > vtx)
+         curr_ans2++;
+   }
 }
 int main()
 {
-   int q;
-   cin >> q;
-   while (q--)
+   int n;
+   cin >> n;
+   for (int i = 0; i < n - 1; i++)
    {
-      int n, m;
-      cin >> n >> m;
-      vector<vector<char>> arr(n, vector<char>(m, 0));
-
-      for (int i = 0; i < n; i++)
-      {
-         for (int j = 0; j < m; j++)
-         {
-            cin >> arr[i][j];
-         }
-      }
-      vector<int> ccs;
-      for (int i = 0; i < n; i++)
-      {
-         for (int j = 0; j < m; j++)
-         {
-            if (arr[i][j] != '.')
-               continue;
-            cnt = 0;
-            dfs(i, j, arr);
-            ccs.push_back(cnt);
-         }
-      }
-
-      cout << ccs.size() << endl;
-      for (int i = 0; i < ccs.size(); i++)
-      {
-         cout << ccs[i] << " ";
-      }
-      cout << endl;
+      int x, y;
+      cin >> x >> y;
+      g[x].push_back(y);
+      g[y].push_back(x);
    }
 
+   for (int i = 1; i <= n; i++)
+      cin >> val[i];
+
+   int ans = 0;
+   for (int i = 1; i <= n; i++)
+   {
+
+      if (val[i] == 1)
+      {
+         curr_ans1 = 1;
+         curr_ans2 = 1;
+         dfs1(i, 0);
+      }
+
+      ans = max(ans, max(curr_ans2, curr_ans1));
+   }
+   cout << ans;
    return 0;
 }
