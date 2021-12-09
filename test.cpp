@@ -1,59 +1,88 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e5 + 10;
+const int N = 2e5 + 10;
 vector<int> g[N];
-int val[N];
-int cnt;
+bool visited[N];
+int edge_cnt;
+vector<vector<int>> ccs;
+vector<int> current_cc;
 
-void dfs(int vtx, int par, long long target, long long curr_sum, int curr_cnt)
+void dfs(int vtx)
 {
-   if (par != 0)
-   {
-      curr_sum += val[vtx];
-      curr_cnt++;
-   }
-   if (curr_sum >= target)
-   {
-      cnt = min(cnt, curr_cnt);
-      return;
-   }
+   current_cc.push_back(vtx);
+   visited[vtx] = true;
    for (auto child : g[vtx])
    {
-      if (child == par)
+      if (visited[child])
          continue;
-      dfs(child, vtx, target, curr_sum, curr_cnt);
+      edge_cnt++;
+      dfs(child);
    }
 }
 int main()
 {
-   int n, q;
-   cin >> n >> q;
-
-   for (int i = 1; i <= n; i++)
-      cin >> val[i];
-
-   for (int i = 0; i < n - 1; i++)
+   int n, m;
+   cin >> m >> n;
+   if (n == 0)
    {
-      int v1, v2;
-      cin >> v1 >> v2;
-      g[v1].push_back(v2);
-      g[v2].push_back(v1);
+      cout << "0/1";
+      return 0;
+   }
+   for (int i = 0; i < m; i++)
+   {
+      int x, y;
+      cin >> x >> y;
+      g[x].push_back(y);
+      g[y].push_back(x);
+   }
+   if (n >= m)
+   {
+      cout << ">1";
+      return 0;
+   }
+   if (m == 0)
+   {
+      cout << "0/1";
+      return 0;
    }
 
-   while (q--)
+   double ratio;
+   int v_cnt;
+   vector<double> ratios;
+   vector<int> edges;
+   for (int i = 1; i <= n; i++)
    {
-      int x;
-      long long k;
-      cin >> x >> k;
+      if (visited[i])
+         continue;
+      edge_cnt = 0;
+      current_cc.clear();
+      dfs(i);
+      v_cnt = current_cc.size();
+      ratio = ((1.0 * edge_cnt) / v_cnt);
+      edges.push_back(edge_cnt);
+      ratios.push_back(ratio);
+      ccs.push_back(current_cc);
+   }
 
-      cnt = INT_MAX;
-      int curr_cnt = 1;
-      long long curr_sum = val[x];
-      dfs(x, 0, k, curr_sum, curr_cnt);
-      if (cnt == INT_MAX)
-         cout << -1 << endl;
-      else
-         cout << cnt << endl;
+   int big_idx;
+   ratio = -1;
+   for (int i = 0; i < ratios.size(); i++)
+   {
+      if (ratio < ratios[i])
+         ratio = ratios[i], big_idx = i;
+   }
+   
+   if (ratio == 1)
+      cout << "1/1";
+
+   else if (ratio > 1)
+      cout << ">1";
+
+   else
+   {
+      edge_cnt = edges[big_idx];
+      v_cnt = ccs[big_idx].size();
+      cout << edge_cnt << "/" << v_cnt;
    }
 
    return 0;
