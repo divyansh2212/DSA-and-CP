@@ -1,88 +1,76 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 2e5 + 10;
-vector<int> g[N];
-bool visited[N];
-int edge_cnt;
-vector<vector<int>> ccs;
-vector<int> current_cc;
+const int N = 45e4 + 10;
+vector<int> p(N);
+vector<int> val(N);
 
-void dfs(int vtx)
+void dfs(int vtx, int par, vector<int> g[N], vector<unordered_set<int>> &valarray)
 {
-   current_cc.push_back(vtx);
-   visited[vtx] = true;
+   p[vtx] = par;
+   valarray[vtx].insert(val[vtx]);
    for (auto child : g[vtx])
    {
-      if (visited[child])
+      if (child == par)
          continue;
-      edge_cnt++;
-      dfs(child);
+      dfs(child, vtx, g, valarray);
+      valarray[vtx].insert(val[child]);
    }
 }
+vector<int> path(int node)
+{
+   vector<int> ans;
+   while (node != -1)
+   {
+      ans.push_back(node);
+      node = p[node];
+   }
+   reverse(ans.begin(), ans.end());
+   return ans;
+}
+
 int main()
 {
-   int n, m;
-   cin >> m >> n;
-   if (n == 0)
+   int t;
+   cin >> t;
+   while (t--)
    {
-      cout << "0/1";
-      return 0;
-   }
-   for (int i = 0; i < m; i++)
-   {
-      int x, y;
-      cin >> x >> y;
-      g[x].push_back(y);
-      g[y].push_back(x);
-   }
-   if (n >= m)
-   {
-      cout << ">1";
-      return 0;
-   }
-   if (m == 0)
-   {
-      cout << "0/1";
-      return 0;
-   }
+      int n, q, r;
+      cin >> n >> q >> r;
+      vector<int> g[n];
+      p.clear();
+      val.clear();
 
-   double ratio;
-   int v_cnt;
-   vector<double> ratios;
-   vector<int> edges;
-   for (int i = 1; i <= n; i++)
-   {
-      if (visited[i])
-         continue;
-      edge_cnt = 0;
-      current_cc.clear();
-      dfs(i);
-      v_cnt = current_cc.size();
-      ratio = ((1.0 * edge_cnt) / v_cnt);
-      edges.push_back(edge_cnt);
-      ratios.push_back(ratio);
-      ccs.push_back(current_cc);
-   }
+      for (int i = 0; i < n; i++)
+         cin >> val[i];
 
-   int big_idx;
-   ratio = -1;
-   for (int i = 0; i < ratios.size(); i++)
-   {
-      if (ratio < ratios[i])
-         ratio = ratios[i], big_idx = i;
-   }
-   
-   if (ratio == 1)
-      cout << "1/1";
+      for (int i = 0; i < n - 1; i++)
+      {
+         int x, y;
+         cin >> x >> y;
+         g[x].push_back(y);
+         g[y].push_back(x);
+      }
 
-   else if (ratio > 1)
-      cout << ">1";
+      vector<unordered_set<int>> valarray(n);
+      dfs(r, -1, g, valarray);
 
-   else
-   {
-      edge_cnt = edges[big_idx];
-      v_cnt = ccs[big_idx].size();
-      cout << edge_cnt << "/" << v_cnt;
+      while (q--)
+      {
+         int x, y;
+         cin >> x >> y;
+         vector<int> path_x = path(x);
+         vector<int> path_y = path(y);
+         int min_ln = min(path_x.size(), path_y.size());
+         int lca = -1;
+         for (int i = 0; i < min_ln; i++)
+         {
+            if (path_x[i] == path_y[i])
+               lca = path_x[i];
+            else
+               break;
+         }
+         cout << valarray[lca].size() << endl;
+      }
    }
 
    return 0;
