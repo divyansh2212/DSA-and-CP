@@ -3,7 +3,6 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e5 + 10;
 bool visited[8][8];
 int level[8][8];
 
