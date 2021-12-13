@@ -1,61 +1,64 @@
+// { Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e5 + 10;
 
-void bfs(vector<vector<int>> &g,
-    	vector<bool> &visited,
-    	vector<int> &levels, int s)
+// } Driver Code Ends
+class Solution
 {
-	queue<int> q;
-	q.push(s);
-	levels[s] = 0;
-	visited[s] = true;
+public:
+    vector<int> bfsOfGraph(int V, vector<int> adj[], vector<int> &visited)
+    {
+        queue<int> q;
+        vector<int> vert;
+        vert.push_back(0);
+        q.push(0);
+        visited[0] = 1;
+        while (!q.empty())
+        {
+            int curr = q.front();
+            q.pop();
+            for (auto child : adj[curr])
+            {
+                if (!visited[child])
+                {
+                    q.push(child);
+                    visited[child] = 1;
+                    vert.push_back(child);
+                }
+            }
+        }
+        return vert;
+    }
+};
 
-	while(!q.empty())
-	{
-		int curr = q.front();
-		q.pop();
-		for(auto child : g[curr])
-		{
-			if(!visited[child])
-			{
-				levels[child] = levels[curr] + 6;
-				visited[child] = true;
-				q.push(child);	
-			}
-		}
-	}
-
-}
-
+// { Driver Code Starts.
 int main()
 {
-    int q;
-    cin >> q;
-    while(q--)
+    int tc;
+    cin >> tc;
+    while (tc--)
     {
-    	int n, m, s;
-    	cin >> n >> m;
-    	vector<vector<int>> g(N);
+        int V, E;
+        cin >> V >> E;
 
-    	for(int i=0; i < m; i++)
-    	{
-    		int x, y;
-    		cin >> x >> y;
-    		g[x].push_back(y);
-    		g[y].push_back(x);
-    	}
-    	cin >> s;
+        vector<int> adj[V];
 
-    	vector<bool> visited(n + 1, false);
-    	vector<int> levels(n + 1, -1);
-    	bfs(g, visited, levels, s);
-    	for(int i=1; i <= n; i++)
-    	{
-    		if(i == s) continue;
-    		cout << levels[i] << " ";
-    	}
-    	cout << endl;
+        for (int i = 0; i < E; i++)
+        {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+        }
+        // string s1;
+        // cin>>s1;
+        Solution obj;
+        vector<int> visited((int)100010, 0);
+        vector<int> ans = obj.bfsOfGraph(V, adj, visited);
+        for (int i = 0; i < ans.size(); i++)
+        {
+            cout << ans[i] << " ";
+        }
+        cout << endl;
     }
-return 0;
-}
+    return 0;
+} // } Driver Code Ends
