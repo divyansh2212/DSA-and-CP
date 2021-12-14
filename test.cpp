@@ -1,64 +1,82 @@
-// { Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
+const int N = 1e5 + 10;
+bool visited[8][8];
+int level[8][8];
 
-// } Driver Code Ends
-class Solution
+vector<pair<int, int>> movements = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1},
+                        {1, 2}, {1, -2}, {-1, 2}, {-1, -2}};
+
+bool isValid(int x, int y)
 {
-public:
-    vector<int> bfsOfGraph(int V, vector<int> adj[], vector<int> &visited)
+    return x >= 0 && y >= 0 && x < 8 && y < 8;
+}
+
+void reset()
+{
+    for (int i = 0; i < 8; ++i)
     {
-        queue<int> q;
-        vector<int> vert;
-        vert.push_back(0);
-        q.push(0);
-        visited[0] = 1;
-        while (!q.empty())
+        for (int j = 0; j < 8; ++j)
         {
-            int curr = q.front();
-            q.pop();
-            for (auto child : adj[curr])
+            level[i][j] = 0;
+            visited[i][j] = false;
+        }
+    }
+}
+
+int getX(string s)
+{
+    return s[0] - 'a';
+}
+
+int getY(string s)
+{
+    return s[1] - '1';
+}
+
+int bfs(string src, string dest)
+{
+    int sourceX = getX(src);
+    int sourceY = getY(src);
+    int destX = getX(dest);
+    int destY = getY(dest);
+    queue<pair<int, int>> q;
+    q.push({sourceX, sourceY});
+    visited[sourceX][sourceY] = true;
+
+    while(!q.empty())
+    {
+        pair<int, int> curr = q.front();
+        q.pop();
+
+        for(auto movement : movements)
+        {
+            int movementX = movement.first + curr.first;
+            int movementY = movement.second + curr.second;
+            if(isValid(movementX, movementY))
             {
-                if (!visited[child])
+                if(!visited[movementX][movementY])
                 {
-                    q.push(child);
-                    visited[child] = 1;
-                    vert.push_back(child);
+                    visited[movementX][movementY] = true;
+                    level[movementX][movementY] = level[curr.first][curr.second] + 1;
+                    q.push({movementX, movementY});
                 }
             }
         }
-        return vert;
     }
-};
+    return level[destX][destY];
+}
 
-// { Driver Code Starts.
-int main()
+int main(int argc, char const *argv[])
 {
-    int tc;
-    cin >> tc;
-    while (tc--)
+    int t;
+    cin >> t;
+    while(t--)
     {
-        int V, E;
-        cin >> V >> E;
-
-        vector<int> adj[V];
-
-        for (int i = 0; i < E; i++)
-        {
-            int u, v;
-            cin >> u >> v;
-            adj[u].push_back(v);
-        }
-        // string s1;
-        // cin>>s1;
-        Solution obj;
-        vector<int> visited((int)100010, 0);
-        vector<int> ans = obj.bfsOfGraph(V, adj, visited);
-        for (int i = 0; i < ans.size(); i++)
-        {
-            cout << ans[i] << " ";
-        }
-        cout << endl;
+        reset();
+        string s1, s2;
+        cin >> s1 >> s2;
+        cout << bfs(s1, s2) << endl;
     }
     return 0;
-} // } Driver Code Ends
+}
