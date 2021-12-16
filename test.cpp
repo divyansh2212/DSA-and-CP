@@ -1,51 +1,85 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-const int N = 1e5 + 10;
-int n, m;
+const int N = 1e3 + 10;
+const int M = 1e9 + 7;
+int val[N][N];
+//bool visited[N][N];
+int n, m, q;
+long long ans = 0;
 
-int bfs(int n, vector<int> &level, vector<bool> &visited, vector<vector<int>> &g)
+void reset()
 {
-    queue<int> q;
-    q.push(1);
-    visited[1] = 1;
+    for (int i = 0; i < N; ++i)
+    {
+        for (int j = 0; j < N; ++j)
+        {
+            val[i][j] = 0;
+       //     visited[i][j] = false;
+        }
+    }
+}
+
+vector<pair<int, int>> movements = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1},
+                                    {-1, 2}, {-1, -2}, {1, 2}, {1, -2}};
+
+bool isValid(int i, int j)
+{
+    return i >= 0 && j >= 0 && i < n && j < m && val[i][j] == 1;
+}
+
+void bfs(int i, int j)
+{
+    queue<pair<int, int>> q;
+    q.push({i, j});
 
     while(!q.empty())
     {
-        int curr = q.front();
+        vector<vector<bool>> visited(n, vector<bool> (m, false));
+        auto curr = q.front();
+        visited[curr.first][curr.second] = true;
+        
         q.pop();
-        for(auto child : g[curr])
+        for(auto movement : movements)
         {
-            if(!visited[child])
+            int child_x = movement.first + curr.first;
+            int child_y = movement.second + curr.second;
+            if(isValid(child_x, child_y) && !visited[child_x][child_y])
             {
-                q.push(child);
-                level[child] = level[curr] + 1;
-                visited[child] = 1;
+                visited[child_x][child_y] = true;
+                q.push({child_x, child_y});
+                ans += 2;
             }
         }
     }
-    return level[n];
 }
 
-int main(){
-
+int main()
+{   
     int t;
     cin >> t;
     while(t--)
     {
-        vector<vector<int>> g(N);
-        vector<int> level(N, 0);
-        vector<bool> visited(N, false);
-        cin >> n >> m;
-        for (int i = 0; i < m; ++i)
+        cin >> n >> m >> q;
+        reset();
+        ans = 0;
+        while(q--)
         {
             int x, y;
             cin >> x >> y;
-            g[x].push_back(y);
-            g[y].push_back(x);
+            val[x-1][y-1] = 1;
         }
-        cout << bfs(n, level, visited, g) << endl;
+
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < m; ++j)
+            {
+                if(val[i][j] == 1)
+                {
+                    bfs(i, j);
+                }
+            }
+        }
+        cout << (ans % M) << endl;
     }
-
-
     return 0;
 }
