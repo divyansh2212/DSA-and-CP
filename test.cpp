@@ -1,85 +1,70 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 1e3 + 10;
-const int M = 1e9 + 7;
+const int N = 50;
+int n, m;
 int val[N][N];
-//bool visited[N][N];
-int n, m, q;
-long long ans = 0;
+int ans = 0, fnl_ans = 0;
 
-void reset()
+vector<pair<int, int>> movements = {{1, 0}, {1, -1}, {1, 1}, {0, 1}, {0, -1}, {-1, 0}, {-1, 1}, {-1, -1}};
+
+bool isValid(int i, int j, int prev)
 {
-    for (int i = 0; i < N; ++i)
-    {
-        for (int j = 0; j < N; ++j)
-        {
-            val[i][j] = 0;
-       //     visited[i][j] = false;
-        }
-    }
+    return i >= 0 && j >= 0 && i < n && j < m && val[i][j] == prev + 1;
 }
 
-vector<pair<int, int>> movements = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1},
-                                    {-1, 2}, {-1, -2}, {1, 2}, {1, -2}};
-
-bool isValid(int i, int j)
+void dfs(int i, int j, vector<vector<bool>>& visited)
 {
-    return i >= 0 && j >= 0 && i < n && j < m && val[i][j] == 1;
-}
+    visited[i][j] = true;
+    ans++;
+    int prev = val[i][j];
 
-void bfs(int i, int j)
-{
-    queue<pair<int, int>> q;
-    q.push({i, j});
-
-    while(!q.empty())
+    for(auto movement : movements)
     {
-        vector<vector<bool>> visited(n, vector<bool> (m, false));
-        auto curr = q.front();
-        visited[curr.first][curr.second] = true;
-        
-        q.pop();
-        for(auto movement : movements)
+        int child_x = i + movement.first;
+        int child_y = j + movement.second;
+        if(isValid(child_x, child_y, prev))
         {
-            int child_x = movement.first + curr.first;
-            int child_y = movement.second + curr.second;
-            if(isValid(child_x, child_y) && !visited[child_x][child_y])
-            {
-                visited[child_x][child_y] = true;
-                q.push({child_x, child_y});
-                ans += 2;
-            }
+            if(visited[child_x][child_y]) continue;
+            dfs(child_x, child_y, visited);
         }
     }
 }
 
 int main()
-{   
-    int t;
-    cin >> t;
-    while(t--)
+{
+    cin >> n >> m;
+    for (int i = 0; i < n; ++i)
     {
-        cin >> n >> m >> q;
-        reset();
-        ans = 0;
-        while(q--)
+        for (int j = 0; j < m; ++j)
         {
-            int x, y;
-            cin >> x >> y;
-            val[x-1][y-1] = 1;
+            char c;
+            cin >> c;
+            val[i][j] = c;
         }
-
-        for (int i = 0; i < n; ++i)
+    }
+    int x, y;
+    cin >> x >> y;
+    vector<vector<bool>> visited(n, vector<bool> (m, false));
+    int k = 0; int cased;
+    for(int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; ++j)
         {
-            for (int j = 0; j < m; ++j)
-            {
-                if(val[i][j] == 1)
+            ++k;
+            if(val[i][j] == 65)
+            {   
+                ans = 0;
+                dfs(i, j, visited);
+                if(fnl_ans < ans)
                 {
-                    bfs(i, j);
+                    fnl_ans = max(fnl_ans, ans);
+                    cased = k;
                 }
             }
         }
-        cout << (ans % M) << endl;
     }
+
+ //   cout << "Case 1:" << fnl_ans;
+    cout << "Case " << cased << ":" << fnl_ans;
     return 0;
 }

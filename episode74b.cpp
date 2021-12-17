@@ -16,6 +16,7 @@ void dfs(int vertex, int par = 0)
     {
         if (child == par)
             continue;
+        
         dfs(child, vertex);
 
         subtrees_sum[vertex] += subtrees_sum[child];
