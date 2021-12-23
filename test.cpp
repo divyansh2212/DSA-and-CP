@@ -1,70 +1,64 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int N = 50;
-int n, m;
-int val[N][N];
-int ans = 0, fnl_ans = 0;
 
-vector<pair<int, int>> movements = {{1, 0}, {1, -1}, {1, 1}, {0, 1}, {0, -1}, {-1, 0}, {-1, 1}, {-1, -1}};
-
-bool isValid(int i, int j, int prev)
+bool checking(int a[], int n)
 {
-    return i >= 0 && j >= 0 && i < n && j < m && val[i][j] == prev + 1;
-}
-
-void dfs(int i, int j, vector<vector<bool>>& visited)
-{
-    visited[i][j] = true;
-    ans++;
-    int prev = val[i][j];
-
-    for(auto movement : movements)
+    for(int i = 1; i < n; i++)
     {
-        int child_x = i + movement.first;
-        int child_y = j + movement.second;
-        if(isValid(child_x, child_y, prev))
-        {
-            if(visited[child_x][child_y]) continue;
-            dfs(child_x, child_y, visited);
-        }
+        if(a[i] != a[i-1])
+            return false;
     }
+    return true;
 }
 
 int main()
 {
-    cin >> n >> m;
+
+    int n;
+    cin >> n;
+    int a[n], b[n];
+    int mn = INT_MAX;
+
     for (int i = 0; i < n; ++i)
-    {
-        for (int j = 0; j < m; ++j)
         {
-            char c;
-            cin >> c;
-            val[i][j] = c;
+            cin >> a[i];
+            mn = min(mn, a[i]);
         }
-    }
-    int x, y;
-    cin >> x >> y;
-    vector<vector<bool>> visited(n, vector<bool> (m, false));
-    int k = 0; int cased;
-    for(int i = 0; i < n; i++)
+
+    for (int i = 0; i < n; ++i)
+        cin >> b[i];
+    
+
+    int cnt = 0; bool flag = false;
+
+    while(flag == false)
     {
-        for (int j = 0; j < m; ++j)
+        for(int i = 0; i < n; i++)
         {
-            ++k;
-            if(val[i][j] == 65)
-            {   
-                ans = 0;
-                dfs(i, j, visited);
-                if(fnl_ans < ans)
+            if(checking(a, n))
+                break;
+            if(a[i] > mn)
+            {
+                a[i] = a[i] - b[i];
+                if(a[i] < 0)
                 {
-                    fnl_ans = max(fnl_ans, ans);
-                    cased = k;
+                    flag = true;
+                    break;
                 }
+                mn = min(mn, a[i]);
+                cnt++;
             }
         }
+        if(checking(a, n))
+                break;
+        if(flag)
+            break;
     }
+    if(flag)
+        cout << -1;
+    else
+        cout << cnt;
 
- //   cout << "Case 1:" << fnl_ans;
-    cout << "Case " << cased << ":" << fnl_ans;
+
     return 0;
 }
