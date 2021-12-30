@@ -1,33 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+const int M = 1e9 + 7;
 
 int main()
 {
     int t;
     cin >> t;
-    
     while(t--)
     {
-        int n;
-        cin >> n;
-        if(n % 4 == 0)
+        int n, k;
+        cin >> n >> k;
+        long long p = 1;
+        long long ans = 0;
+        for (int i = 0; i < 32; ++i)
         {
-            cout << "1 " << n << " " << endl;
-            continue;
+            if(k & (1 << i))
+            {
+                ans = (ans + p) % M;
+            }
+            p = (p * n) % M;
         }
-        if(n % 4 == 1)
-        {
-            cout << "1 1 " << endl;
-            continue;
-        }
-        if(n % 4 == 2)
-        {
-            cout << "2 " << n << " 1 " << endl;
-            continue;
-        }
-        if(n % 4 == 3)
-            cout << 0 << endl;
+        cout << ans << endl;
     }
 
     return 0;
