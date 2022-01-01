@@ -1,27 +1,24 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-const int M = 1e9 + 7;
 
 int main()
 {
-    int t;
-    cin >> t;
-    while(t--)
-    {
-        int n, k;
-        cin >> n >> k;
-        long long p = 1;
-        long long ans = 0;
-        for (int i = 0; i < 32; ++i)
-        {
-            if(k & (1 << i))
-            {
-                ans = (ans + p) % M;
-            }
-            p = (p * n) % M;
-        }
-        cout << ans << endl;
-    }
+    int n, k;
+    cin >> n >> k;
+    int time = 240 - k;
 
+    long long arr[n+1];
+    long long sum = 0;
+    for (int i = 1; i <= n; ++i)
+    {
+        arr[i] = 5*1LL*i;
+        sum += arr[i];
+        if(sum > time)
+        {
+            cout << i - 1;
+            return 0;
+        }
+    }
+    cout << n;
     return 0;
 }
