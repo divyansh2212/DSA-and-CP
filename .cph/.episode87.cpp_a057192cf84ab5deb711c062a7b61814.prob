@@ -1,0 +1,1 @@
+{"name":"Local: episode87","url":"c:\\Codes\\LUV Course\\episode87.cpp","tests":[{"id":1641111431705,"input":"6 9\n5 4 9\n1 4 1\n5 1 4\n4 3 5\n4 2 3\n1 2 2\n3 2 3\n3 6 8\n2 6 7","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\LUV Course\\episode87.cpp","group":"local","local":true}
