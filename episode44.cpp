@@ -31,9 +31,7 @@ int main()
         cin >> n >> c;
         int location[N];
         for (int i = 0; i < n; i++)
-        {
             cin >> location[i];
-        }
         //  T T T T T T T T F F F F F F F
         sort(location, location + n);
         int lo = 0, hi = 1e9, mid;
@@ -41,18 +39,15 @@ int main()
         {
             mid = (hi + lo) / 2;
             if (canWePlace(mid, c, location, n) == true)
-            {
                 lo = mid;
-            }
+            
             else if (canWePlace(mid, c, location, n) == false)
-            {
                 hi = mid - 1;
-            }
+            
         }
         if (canWePlace(hi, c, location, n))
-        {
             cout << hi << endl;
-        }
+        
         else
             cout << lo << endl;
     }
