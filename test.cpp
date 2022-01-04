@@ -1,32 +1,33 @@
 #include<bits/stdc++.h>
 using namespace std;
-unordered_map<int, int> m;
 
 int main()
 {
-    int q;
-    cin >> q;
-    while(q--)
+    int t;
+    cin >> t;
+    while(t--)
     {
-        int type, t, x, k;
-        cin >> type >> x >> t;
-        if(type == 1)
+        int n;
+        cin >> n;
+        vector<int> l(n), r(n);
+        bool mark[n+1][n+1] = {false};
+        for (int i = 0; i < n; ++i)
         {
-            // cin >> x >> t;
-            m[t] = x;
+            cin >> l[i] >> r[i];
+            mark[l[i]][r[i]] = true;
         }
-        else if(type == 2)
+
+        for (int i = 0; i < n; ++i)
         {
-            // cin >> k >> t;
-            long long sum = 0;
-            for(int i = t; i > t - x; i--)
+            for (int d = l[i]; d <= r[i]; ++d)
             {
-                if(m[t])
-                    sum += m[t];
+                if((mark[l[i]][d-1] || d == l[i]) && (mark[d+1][r[i]] || d == r[i]))
+                {
+                    cout << l[i] << " " << r[i] << " " << d << endl;
+                    break;
+                }
             }
-            cout << sum << endl;
         }
     }
-
     return 0;
 }
