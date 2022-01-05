@@ -1,15 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 const int m = 1e9 + 7;
+// Modular Multiplicative Inverse
 int binExp(int a, int b, int n)
 {
     int ans = 1;
     while (b > 0)
     {
         if (b & 1)
-        {
             ans = ans * 1LL * a;
-        }
+        
         a = a * 1LL * a;
         b = (b >> 1);
     }

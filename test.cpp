@@ -1,33 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
+const int N = 1e6 + 10;
+const int M = 1e9 + 7;
+long long fact[N];
+
+int binExp(long long a, int b)
+{
+    int ans = 1;
+    while(b)
+    {
+        if(b & 1)
+            ans = (ans * 1LL * a) % M;
+        a = (a * 1LL * a) % M;
+        b = (b >> 1);
+    }
+    return ans;
+}
 
 int main()
 {
-    int t;
-    cin >> t;
-    while(t--)
+    string s;
+    cin >> s;
+    string ans;
+    for (int i = 0; i < s.length(); ++i)
     {
-        int n;
-        cin >> n;
-        vector<int> l(n), r(n);
-        bool mark[n+1][n+1] = {false};
-        for (int i = 0; i < n; ++i)
-        {
-            cin >> l[i] >> r[i];
-            mark[l[i]][r[i]] = true;
-        }
-
-        for (int i = 0; i < n; ++i)
-        {
-            for (int d = l[i]; d <= r[i]; ++d)
-            {
-                if((mark[l[i]][d-1] || d == l[i]) && (mark[d+1][r[i]] || d == r[i]))
-                {
-                    cout << l[i] << " " << r[i] << " " << d << endl;
-                    break;
-                }
-            }
-        }
+        if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i] == 'y' || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U' || s[i] == 'Y')
+            continue;
+        ans.push_back('.');
+        int x = s[i] - 'A';
+        if(x >= 0 && x <= 26)
+            ans.push_back('a' + x);
+        else
+            ans.push_back(s[i]);
     }
+    cout << ans;
     return 0;
 }

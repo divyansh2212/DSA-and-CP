@@ -2,7 +2,8 @@
 using namespace std;
 const int N = 1e7 + 10;
 int main()
-{ // To calculate lowest prime and highest prime of every number
+{ 
+    // To calculate lowest prime and highest prime of every number
     vector<bool> is_prime(N, 1);
     vector<int> hp(N, 0);
     vector<int> lp(N, 0);
@@ -35,9 +36,8 @@ int main()
             num = num / pf;
         }
     }
+    
     for (auto &factrs : prime_factors)
-    {
         cout << factrs << " ";
-    }
     return 0;
 }

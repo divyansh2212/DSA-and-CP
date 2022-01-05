@@ -7,6 +7,7 @@ int main()
     int n;
     cin >> n;
     vector<int> pf;
+    // Smallest divisor (not 1) of any number is a prime
     for (int i = 2; i * i <= n; i++)
     {
         while (n % i == 0)

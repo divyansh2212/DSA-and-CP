@@ -8,9 +8,7 @@ int main()
     for (int i = 2; i < N; i++)
     {
         for (int j = i; j < N; j = j + i)
-        {
             divisors[j].push_back(i);
-        }
     }
 
     for (int i = 2; i <= 10; i++)

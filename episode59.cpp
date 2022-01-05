@@ -10,17 +10,14 @@ int main()
         if (isPrime[i])
         {
             for (int j = 2 * i; j < N; j = j + i)
-            {
                 isPrime[j] = 0;
-            }
         }
     }
     // O( N * ( log(log(N)) ) )
     
     for (int i = 1; i < 31; i++)
-    {
         cout << isPrime[i] << endl;
-    }
+    
 
     return 0;
 }

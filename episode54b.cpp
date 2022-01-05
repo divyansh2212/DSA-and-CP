@@ -7,9 +7,8 @@ int BinExpIter(int a, int b)
     while (b)
     {
         if (b & 1)
-        {
             ans = ans * a;
-        }
+        
         a = a * a;
         b = (b >> 1);
     }
