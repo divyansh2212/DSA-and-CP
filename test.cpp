@@ -1,38 +1,33 @@
 #include<bits/stdc++.h>
 using namespace std;
+// const int M = 1e9 + 7;
 const int N = 1e6 + 10;
-const int M = 1e9 + 7;
-long long fact[N];
-
-int binExp(long long a, int b)
+long long lcm(int x, int y)
 {
-    int ans = 1;
-    while(b)
-    {
-        if(b & 1)
-            ans = (ans * 1LL * a) % M;
-        a = (a * 1LL * a) % M;
-        b = (b >> 1);
-    }
-    return ans;
+    return ((x*1LL*y) / __gcd(x, y));
 }
 
 int main()
 {
-    string s;
-    cin >> s;
-    string ans;
-    for (int i = 0; i < s.length(); ++i)
+    int t;
+    cin >> t;
+    while(t--)
     {
-        if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i] == 'y' || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U' || s[i] == 'Y')
-            continue;
-        ans.push_back('.');
-        int x = s[i] - 'A';
-        if(x >= 0 && x <= 26)
-            ans.push_back('a' + x);
-        else
-            ans.push_back(s[i]);
+        int l, r;
+        cin >> l >> r;
+        bool flag = false;
+        for (int i = l; i <= r / 2; ++i)
+        {
+            int j = 2 * i;
+            if(j <= r && lcm(i, j) <= r)
+            {
+                flag = true;
+                cout << i << " " << j << endl;
+                break;
+            }
+        }
+        if(flag == false)
+            cout << -1 << " " << -1 << endl;
     }
-    cout << ans;
     return 0;
 }
