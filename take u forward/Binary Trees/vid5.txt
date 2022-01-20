@@ -1,0 +1,4 @@
+Types of DFS ---
+1. Inorder Traversal - Left Root Right
+2. Pre-order Traversal - Root Left Right
+3. Post-order Traversal - Left Right Root

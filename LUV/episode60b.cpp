@@ -14,9 +14,8 @@ int main()
     for (int i = 2; i <= 10; i++)
     {
         for (auto div : divisors[i])
-        {
             cout << div << " ";
-        }
+
         cout << endl;
     }
     return 0;
