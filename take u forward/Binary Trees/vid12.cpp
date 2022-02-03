@@ -15,29 +15,27 @@ struct node
 vector<int> postOrder(node *root)
 {
     vector<int> ans;
+
     if (root == NULL)
         return ans;
 
-    stack<node *> st1, st2;
+    stack<node *> st1;
     st1.push(root);
 
     while (!st1.empty())
     {
         root = st1.top();
         st1.pop();
-        st2.push(root);
+
+        ans.push_back(root->data);
         if (root->left != NULL)
             st1.push(root->left);
         if (root->right != NULL)
             st1.push(root->right);
     }
 
-    while (!st2.empty())
-    {
-        root = st2.top();
-        st2.pop();
-        ans.push_back(root->data);
-    }
+    reverse(ans.begin(), ans.end());
+    
     return ans;
 }
 
