@@ -12,26 +12,26 @@ struct node
     }
 };
 
-int heightOfLeft(node *root)
+int heightOfLeft(node *Node)
 {
-    int height = 0;
-    while (root)
+    int h = 0;
+    while (Node)
     {
-        height++;
-        root = root->left;
+        h++;
+        Node = Node->left;
     }
-    return height;
+    return h;
 }
 
-int heightOfRight(node *root)
+int heightOfRight(node *Node)
 {
-    int height = 0;
-    while (root)
+    int h = 0;
+    while (Node)
     {
-        height++;
-        root = root->right;
+        h++;
+        Node = Node->right;
     }
-    return height;
+    return h;
 }
 
 int totalNodesInCompleteBT(node *root)
@@ -39,17 +39,25 @@ int totalNodesInCompleteBT(node *root)
     if (root == NULL)
         return 0;
 
-    int lh = heightOfLeft(root->left);
-    int rh = heightOfRight(root->right);
+    int lh = heightOfLeft(root);
+    int rh = heightOfRight(root);
 
     if (lh == rh)
-        return (1 << lh) - 1;
+        return (1 << rh) - 1;
 
     return 1 + totalNodesInCompleteBT(root->left) + totalNodesInCompleteBT(root->right);
 }
 
 int main()
 {
+    struct node *root = new node(1);
+    root->left = new node(2);
+    root->right = new node(3);
+    root->left->left = new node(4);
+    root->left->right = new node(5);
+    root->right->left = new node(6);
+    root->right->right = new node(7);
 
+    cout << totalNodesInCompleteBT(root);
     return 0;
 }
