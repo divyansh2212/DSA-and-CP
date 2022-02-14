@@ -1,0 +1,1 @@
+{"name":"Local: vid6_0-1_knapsack","url":"c:\\Codes\\DSA and CP\\LUV\\Dynammic Programming\\vid6_0-1_knapsack.cpp","tests":[{"id":1644807152341,"input":"3 8\n3 30\n4 50\n5 60","output":"90"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Codes\\DSA and CP\\LUV\\Dynammic Programming\\vid6_0-1_knapsack.cpp","group":"local","local":true}
