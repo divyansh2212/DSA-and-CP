@@ -12,71 +12,36 @@ struct node
     }
 };
 
-bool isLeaf(node *root)
+vector<vector<int>> levelOrderZigzag(node *root)
 {
-    return root->left == NULL && root->right == NULL;
-}
-
-void addLeftBoundary(node *root, vector<int> &ans)
-{
-    node *curr = root->left;
-    while (curr)
-    {
-        if (isLeaf(curr) == false)
-            ans.push_back(curr->data);
-
-        if (curr->left)
-            curr = curr->left;
-        else
-            curr = curr->right;
-    }
-}
-
-void addLeafs(node *root, vector<int> &ans)
-{
-    if (isLeaf(root))
-    {
-        ans.push_back(root->data);
-        return;
-    }
-    addLeafs(root->left, ans);
-    addLeafs(root->right, ans);
-}
-
-void addRightBoundary(node *root, vector<int> &ans)
-{
-    node *curr = curr->right;
-    stack<int> st;
-    while (curr)
-    {
-        if (isLeaf(curr) == false)
-            st.push(curr->data);
-
-        if (curr->right)
-            curr = curr->right;
-        else
-            curr = curr->left;
-    }
-    while (!st.empty())
-    {
-        int top = st.top();
-        st.pop();
-        ans.push_back(top);
-    }
-}
-
-vector<int> printBoundary(node *root)
-{
-    vector<int> ans;
+    vector<vector<int>> result;
     if (root == NULL)
-        return ans;
+        return result;
 
-    ans.push_back(root->data);
-    addLeftBoundary(root, ans);
-    addLeafs(root, ans);
-    addRightBoundary(root, ans);
+    queue<node *> q;
+    q.push(root);
+    bool flag = true;
 
-    return ans;
+    while (!q.empty())
+    {
+        int sz = q.size();
+        vector<int> row(sz);
+
+        for (int i = 0; i < sz; i++)
+        {
+            int idx = flag == true ? i : (sz - 1 - i);
+            node *curr = q.front();
+            q.pop();
+            row[idx] = curr->data;
+            if (curr->left)
+                q.push(curr->left);
+            if (curr->right)
+                q.push(curr->right);
+        }
+        flag = !flag;
+        result.push_back(row);
+    }
+    return result;
 }
 
 int main()
@@ -89,8 +54,16 @@ int main()
     root->right->left = new node(6);
     root->right->right = new node(7);
 
-    vector<int> ans = printBoundary(root);
+    vector<vector<int>> ans = levelOrderZigzag(root);
+
     for (int i = 0; i < ans.size(); i++)
-        cout << ans[i] << " ";
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+
     return 0;
 }

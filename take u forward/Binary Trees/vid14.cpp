@@ -15,8 +15,8 @@ struct node
 
 void traversals(node *root)
 {
-    if(root == NULL)
-    return;
+    if (root == NULL)
+        return;
     stack<pair<node *, int>> st;
     st.push({root, 1});
 
