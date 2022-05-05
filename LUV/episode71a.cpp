@@ -47,9 +47,7 @@ int main()
     for (auto cc : ccs)
     {
         for (auto node : cc)
-        {
             cout << node << " ";
-        }
         cout << endl;
     }
 
