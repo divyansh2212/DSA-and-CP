@@ -29,7 +29,7 @@ int longestIncreasingSubsequence(int arr[], int n)
 
 int longestIncreasingSubsequence(int arr[], int n)
 {
-    vector<int> next(n + 1,0);
+    vector<int> next(n + 1, 0);
 
     for (int idx = n - 1; idx >= 0; idx--)
     {
