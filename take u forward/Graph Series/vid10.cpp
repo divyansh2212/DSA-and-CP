@@ -4,6 +4,8 @@
 using namespace std;
 #define ll long long
 
+// Bipartite Graph (BFS) | Graph Coloring
+
 class Solution
 {
 public:
@@ -20,15 +22,15 @@ public:
 
             for (auto &child : graph[top])
             {
-                if (color[child] != -1 && color[child] == color[top])
-                {
-                    flag = false;
-                    return;
-                }
-                else if (color[child] == -1)
+                if (color[child] == -1)
                 {
                     q.push(child);
                     color[child] = !color[top];
+                }
+                else if (color[child] == color[top])
+                {
+                    flag = false;
+                    return;
                 }
             }
         }
